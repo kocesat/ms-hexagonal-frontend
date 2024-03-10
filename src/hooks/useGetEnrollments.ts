@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import apiClient from "../services/api-client";
-import { CanceledError } from "axios";
+import usePostData from "./usePostData";
+import { UserInfo } from "../context/UserContext";
 
 export interface Enrollment {
   id: number;
@@ -12,36 +11,15 @@ export interface Enrollment {
   paymentAmount: number;
 }
 
-export interface EnrollmentListResponse {
-  enrollmentList: Enrollment[];
-}
+const useGetEnrollments = (userContext: UserInfo) => {
+  
+  const requestBody = { studentId: userContext.id, year: userContext.year, semester: userContext.semester };
 
-const useGetEnrollments = () => {
-  const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const controller = new AbortController();
-    apiClient
-      .post<EnrollmentListResponse>("/enrollment/list",
-      {
-        studentId: 1,
-        year: 2024,
-        semester: 2,
-      }, { signal: controller.signal })
-      .then((res) => {
-        setEnrollments(res.data.enrollmentList);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) {
-          return;
-        }
-        setError(err.message);
-      });
-    return () => controller.abort();
-  }, []);
-
-  return {enrollments, error, setError};
+  return usePostData<Enrollment>({
+    endpoint: "/enrollment/list",
+    requestBody,
+    deps: [userContext.id]
+  });
 }
 
 export default useGetEnrollments;
