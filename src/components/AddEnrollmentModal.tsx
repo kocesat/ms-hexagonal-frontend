@@ -39,7 +39,7 @@ const AddEnrollmentModal = ({
   onCourseSelect,
 }: Props) => {
   const { userInfo } = useContext(UserContext);
-  const { data, error, isLoading } = useGetCourseOffers(userInfo);
+  const { data, error, isLoading, refetch } = useGetCourseOffers(userInfo);
 
   const handleCourseOfferSelect = (courseOffer: CourseOffer) => {
     onCourseSelect(courseOffer);
@@ -47,6 +47,7 @@ const AddEnrollmentModal = ({
 
   const handleClose = () => {
     onClose();
+    refetch();
   };
 
   const modalError = error || addEnrollmentError;

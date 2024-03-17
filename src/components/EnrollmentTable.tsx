@@ -1,5 +1,6 @@
 import {
   Badge,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -21,9 +22,18 @@ const statusColorMap: { [key: string]: string } = {
 interface Props {
   enrollments: Enrollment[];
   errorMessage?: string;
+  isLoading?: boolean;
 }
 
-const EnrollmentTable = ({ enrollments, errorMessage = "" }: Props) => {
+const EnrollmentTable = ({
+  enrollments,
+  errorMessage = "",
+  isLoading = false,
+}: Props) => {
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       {errorMessage && <p>{errorMessage}</p>}

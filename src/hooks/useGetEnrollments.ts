@@ -18,7 +18,7 @@ const useGetEnrollments = (userContext: UserInfo) => {
   return usePostData<Enrollment>({
     endpoint: "/enrollment/list",
     requestBody,
-    deps: [userContext.id]
+    deps: [userContext.id, userContext.year, userContext.semester]
   });
 }
 

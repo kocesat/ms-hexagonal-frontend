@@ -18,6 +18,11 @@ const usePostData = <T>({endpoint, requestBody, deps}: Props) => {
   const [data, setData] = useState<T[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [shouldRefetch, setRefetch] = useState({});
+
+  const refetch = () => {
+    setRefetch({});
+  }
 
   useEffect(() => {
     const controller = new AbortController();
@@ -38,9 +43,9 @@ const usePostData = <T>({endpoint, requestBody, deps}: Props) => {
       });
 
       return () => controller.abort();
-  }, deps ? [...deps] : []);
+  }, deps ? [...deps, shouldRefetch] : [shouldRefetch]);
 
-  return { data, error, isLoading };
+  return { data, error, isLoading, refetch };
 };
 
 export default usePostData;

@@ -1,4 +1,10 @@
-import { Button, Icon, VStack, useDisclosure } from "@chakra-ui/react";
+import {
+  AlertStatus,
+  Button,
+  Icon,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import { MdPayments } from "react-icons/md";
 import EnrollmentTable from "../components/EnrollmentTable";
@@ -17,10 +23,33 @@ interface AddEnrollmentResponse {
 
 const EnrollmentPage = () => {
   const { userInfo } = useContext(UserContext);
-  const { data, error } = useGetEnrollments(userInfo);
+  const {
+    data,
+    error,
+    isLoading,
+    refetch: refetchEnrollments,
+  } = useGetEnrollments(userInfo);
   const [addEnrollmentLoading, setAddEnrollmentLoading] = useState(false);
   const [addEnrollmentError, setAddEnrollmentError] = useState("");
   const [courseSelectModalOpen, setCourseSelectModalOpen] = useState(false);
+
+  const enrollmentInformation = () => {
+    if (data.length === 0) {
+      return { message: "No courses taken yet.", status: "info" };
+    }
+
+    const uncompleteCount = data.filter(
+      (enrollment) => enrollment.enrollmentStatus !== "SUCCESSFUL"
+    ).length;
+    if (uncompleteCount > 0) {
+      const message = "You have uncomplete courses. Please go to make payment";
+      const status = "warning";
+      return { message, status };
+    }
+    const message = "You have no uncomplete courses. Go enjoy your classes!";
+    const status = "success";
+    return { message, status };
+  };
 
   const closeCourseSelectModal = () => {
     setCourseSelectModalOpen(false);
@@ -46,6 +75,7 @@ const EnrollmentPage = () => {
       .then((res) => {
         setAddEnrollmentLoading(false);
         closeCourseSelectModal();
+        refetchEnrollments();
       })
       .catch((err) => {
         setAddEnrollmentLoading(false);
@@ -56,7 +86,10 @@ const EnrollmentPage = () => {
   return (
     <VStack px={3} gap={2} alignItems="stretch" alignContent="center">
       {error && <p>{error}</p>}
-      <EnrollmentMessage />
+      <EnrollmentMessage
+        message={enrollmentInformation().message}
+        status={enrollmentInformation().status as AlertStatus}
+      />
 
       <Button
         onClick={openCourseSelectModal}
@@ -73,7 +106,11 @@ const EnrollmentPage = () => {
         isLoading={addEnrollmentLoading}
         error={addEnrollmentError}
       />
-      <EnrollmentTable enrollments={data} errorMessage={error} />
+      <EnrollmentTable
+        isLoading={isLoading}
+        enrollments={data}
+        errorMessage={error}
+      />
 
       <Button
         onClick={() => console.log("go to payment")}

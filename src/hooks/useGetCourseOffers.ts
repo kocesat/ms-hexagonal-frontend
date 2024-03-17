@@ -19,7 +19,7 @@ const useGetCourseOffers = (userContext: UserInfo) => {
   return usePostData<CourseOffer>({
     endpoint: "/course-offer",
     requestBody,
-    deps: [userContext.year, userContext.semester]
+    deps: [userContext.id, userContext.year, userContext.semester]
   });
 }
 

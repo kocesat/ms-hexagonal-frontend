@@ -2,17 +2,21 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  AlertStatus,
   AlertTitle,
 } from "@chakra-ui/react";
 
-const EnrollmentMessage = () => {
+interface Props {
+  message: string;
+  status?: AlertStatus;
+}
+
+const EnrollmentMessage = ({ message, status = "info" }: Props) => {
   return (
-    <Alert status="info">
+    <Alert status={status}>
       <AlertIcon />
       <AlertTitle>Enrollment Information</AlertTitle>
-      <AlertDescription>
-        You have no uncomplete courses. Go ahaed and enjoy your classes
-      </AlertDescription>
+      <AlertDescription>{message}</AlertDescription>
     </Alert>
   );
 };
