@@ -101,10 +101,12 @@ const Profile = () => {
               />
             </FormControl>
             <ButtonGroup display="flex" justifyContent="flex-end">
-              <Button onClick={onClose} variant="outline">
-                Cancel
-              </Button>
-              <Button isDisabled={!saveEnabled} onClick={handleSave}>
+              <Button onClick={onClose}>Cancel</Button>
+              <Button
+                colorScheme="blue"
+                isDisabled={!saveEnabled}
+                onClick={handleSave}
+              >
                 Save
               </Button>
             </ButtonGroup>

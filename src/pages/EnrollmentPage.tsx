@@ -15,6 +15,7 @@ import { UserContext } from "../context/UserContext";
 import AddEnrollmentModal from "../components/AddEnrollmentModal";
 import { CourseOffer } from "../hooks/useGetCourseOffers";
 import apiClient from "../services/api-client";
+import PaymentModal, { PaymentInfo } from "../components/PaymentModal";
 
 interface AddEnrollmentResponse {
   id: number;
@@ -32,6 +33,19 @@ const EnrollmentPage = () => {
   const [addEnrollmentLoading, setAddEnrollmentLoading] = useState(false);
   const [addEnrollmentError, setAddEnrollmentError] = useState("");
   const [courseSelectModalOpen, setCourseSelectModalOpen] = useState(false);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+
+  const paymentList: PaymentInfo[] = data
+    .filter(
+      (e) =>
+        e.enrollmentStatus !== "SUCCESSFUL" &&
+        e.enrollmentStatus !== "TECHNICAL_ERROR"
+    )
+    .map((e) => ({
+      course: `${e.courseCode} - ${e.courseName}`,
+      amount: e.paymentAmount,
+      enrollmentId: e.id,
+    }));
 
   const enrollmentInformation = () => {
     if (data.length === 0) {
@@ -58,6 +72,11 @@ const EnrollmentPage = () => {
   const openCourseSelectModal = () => {
     setCourseSelectModalOpen(true);
     setAddEnrollmentError("");
+  };
+
+  const closePaymentModal = () => {
+    setPaymentModalOpen(false);
+    refetchEnrollments();
   };
 
   const handleCourseSelect = (courseOffer: CourseOffer) => {
@@ -113,13 +132,18 @@ const EnrollmentPage = () => {
       />
 
       <Button
-        onClick={() => console.log("go to payment")}
-        colorScheme="gray"
+        onClick={() => setPaymentModalOpen(true)}
+        colorScheme="blue"
         size="lg"
         leftIcon={<Icon as={MdPayments} />}
       >
         Continue
       </Button>
+      <PaymentModal
+        isOpen={paymentModalOpen}
+        onClose={closePaymentModal}
+        paymentList={paymentList}
+      />
     </VStack>
   );
 };

@@ -1,4 +1,4 @@
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem, Menu, MenuItem, Show } from "@chakra-ui/react";
 import Navbar from "./components/Navbar";
 import EnrollmentPage from "./pages/EnrollmentPage";
 import UserContextProvider from "./context/UserContext";
@@ -26,7 +26,14 @@ const App = () => {
           <Navbar />
         </GridItem>
         <Show above="lg">
-          <GridItem area="leftside">leftSide</GridItem>
+          <GridItem area="leftside">
+            <Menu>
+              <MenuItem>Enrollments</MenuItem>
+              <MenuItem>Courses</MenuItem>
+              <MenuItem>Instructors</MenuItem>
+              <MenuItem>Payments</MenuItem>
+            </Menu>
+          </GridItem>
         </Show>
         <GridItem area="main">
           <EnrollmentPage />

@@ -12,8 +12,8 @@ import {
 import { Enrollment } from "../hooks/useGetEnrollments";
 
 const statusColorMap: { [key: string]: string } = {
-  RESERVED: "blue",
-  PAYMENT_IN_PROCESS: "teal",
+  RESERVED: "teal",
+  PAYMENT_IN_PROCESS: "blue",
   PAYMENT_FAILED: "orange",
   TECHNICAL_ERROR: "red",
   SUCCESSFUL: "green",

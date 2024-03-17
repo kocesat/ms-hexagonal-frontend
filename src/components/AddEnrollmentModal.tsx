@@ -90,7 +90,7 @@ const AddEnrollmentModal = ({
                         rounded={10}
                         variant="outline"
                         onClick={() => handleCourseOfferSelect(offer)}
-                        colorScheme="green"
+                        colorScheme="yellow"
                       >
                         Take
                       </Button>
