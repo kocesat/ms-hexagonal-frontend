@@ -43,6 +43,7 @@ const AddEnrollmentModal = ({
 
   const handleCourseOfferSelect = (courseOffer: CourseOffer) => {
     onCourseSelect(courseOffer);
+    refetch();
   };
 
   const handleClose = () => {

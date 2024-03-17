@@ -88,7 +88,7 @@ const PaymentModal = ({ isOpen, onClose, paymentList }: Props) => {
   };
 
   return (
-    <Modal size="2xl" isOpen={isOpen} onClose={onClose}>
+    <Modal size="2xl" isOpen={isOpen} onClose={handlePaymentModalClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Payment Information</ModalHeader>
@@ -130,7 +130,7 @@ const PaymentModal = ({ isOpen, onClose, paymentList }: Props) => {
         </ModalBody>
 
         <ModalFooter>
-          <Button mr={3} onClick={onClose}>
+          <Button mr={3} onClick={handlePaymentModalClose}>
             Close
           </Button>
           <Button
