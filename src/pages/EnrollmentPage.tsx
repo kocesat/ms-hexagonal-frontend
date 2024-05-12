@@ -16,6 +16,7 @@ import AddEnrollmentModal from "../components/AddEnrollmentModal";
 import { CourseOffer } from "../hooks/useGetCourseOffers";
 import apiClient from "../services/api-client";
 import PaymentModal, { PaymentInfo } from "../components/PaymentModal";
+import EnrollmentFront from "../components/EnrollmentFront";
 
 interface AddEnrollmentResponse {
   id: number;
@@ -105,6 +106,7 @@ const EnrollmentPage = () => {
   return (
     <VStack px={3} gap={2} alignItems="stretch" alignContent="center">
       {error && <p>{error}</p>}
+      <EnrollmentFront />
       <EnrollmentMessage
         message={enrollmentInformation().message}
         status={enrollmentInformation().status as AlertStatus}
